@@ -43,12 +43,12 @@ let player2 = Player(name: getName(2))
 // controller assigns cards dealt to player hands randomly
 
 let cardsDealt = deal(deck)
-var p1Hand = Hand(owner: player1, count: cardsDealt.0.count, cards: cardsDealt.0)
-var p2Hand = Hand(owner: player2, count: cardsDealt.1.count, cards: cardsDealt.1)
+var p1Hand = Hand(cards: cardsDealt.0)
+var p2Hand = Hand(cards: cardsDealt.1)
 
 // MARK: Start the game
 
-let game = Game(hands: (p1Hand, p2Hand), status: "active")
+let game = Game(players: (player1, player2), hands: (p1Hand, p2Hand), status: "active")
 
 var roundNumber = 1
 var warNumber = 1
@@ -68,7 +68,7 @@ while game.status == "active"{
         
         round.isWar = true
         
-        let war = War(players: (player1, player2), startCards: [(p1DrawCard, p2DrawCard)], discards: [p1DrawCard,p2DrawCard], status: "active", multiple: 1, number: warNumber)
+        let war = War(players: (player1, player2), compareCards: [(p1DrawCard, p2DrawCard)], discards: [p1DrawCard,p2DrawCard], status: "active", multiple: 1, number: warNumber)
         
         while war.status == "active"{
             
@@ -84,9 +84,7 @@ while game.status == "active"{
                 war.discards += [p1Discard1, p2Discard1, p1Discard2, p2Discard2, p1Discard3, p2Discard3]
                 
                 war.cards = (game.hands.0.cards.removeFirst(),game.hands.1.cards.removeFirst())
-                war.startCards.append(war.cards!)
-                
-                print("War cards are: \(war.cards!.0.value) vs. \(war.cards!.1.value) ... startcards: \(war.startCards[0].0.value)  \(war.startCards[0].1.value)")
+                war.compareCards.append(war.cards!)
                 
                 switch war.cards!{
                 case let p1 where p1.0.value.rawValue > war.cards!.1.value.rawValue:
@@ -95,8 +93,6 @@ while game.status == "active"{
                     game.hands.0.cards += war.discards
                     game.hands.0.cards.append(war.cards!.0)
                     game.hands.0.cards.append(war.cards!.1)
-                    print("Player 1 wins the war with: \(war.cards!.0.value) vs. \(war.cards!.1.value)")
-                    //war.discards = []
                     
                 case let p2 where p2.1.value.rawValue > war.cards!.0.value.rawValue:
                     war.winner = player2
@@ -104,8 +100,6 @@ while game.status == "active"{
                     game.hands.1.cards += war.discards
                     game.hands.1.cards.append(war.cards!.0)
                     game.hands.1.cards.append(war.cards!.1)
-                    print("Player 2 wins the war with: \(war.cards!.1.value) vs. \(war.cards!.0.value)")
-                    //war.discards = []
                     
                 default:
                     war.discards.append(war.cards!.0)
@@ -144,7 +138,7 @@ while game.status == "active"{
                 war.status = "bust"
             }
             war.score = (game.hands.0.cards.count,game.hands.1.cards.count)
-                if war.winner != nil && war.status == "finished"{
+                if war.winner != nil{
                     display(war)
                     war.discards = []
                 }
@@ -180,13 +174,11 @@ while game.status == "active"{
     round.status = "finished"
     round.score = (game.hands.0.cards.count,game.hands.1.cards.count)
     if round.isWar == false{
-    roundNumber += 1
     display(round)
+    roundNumber += 1
     }
 }
-
 //game is over, report out the winner/loser
-print("Game status: \(game.status)")
-print(game.hands.0.cards.count)
-print(game.hands.1.cards.count)
+display(game)
+
 

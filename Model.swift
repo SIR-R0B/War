@@ -16,12 +16,8 @@ struct Deck {
     var cards: [Card]
 }
 class Hand {
-    let owner: Player
-    var count: Int
     var cards: [Card]
-    init(owner: Player, count: Int, cards: [Card]){
-        self.owner = owner
-        self.count = count
+    init(cards: [Card]){
         self.cards = cards
     }
 }
@@ -32,16 +28,18 @@ class Player {
     }
 }
 class Game {
+    let players: (Player, Player)
     var hands: (Hand, Hand)
     var status: String //active, finished
-    init(hands: (Hand, Hand), status: String){
+    init(players: (Player, Player), hands: (Hand, Hand), status: String){
+        self.players = players
         self.hands = hands
         self.status = status
     }
 }
 class War {
     let players: (Player, Player)
-    var startCards: [(Card,Card)]
+    var compareCards: [(Card,Card)]
     var discards: [Card]
     var cards: (Card,Card)?
     var status: String //active, finished
@@ -49,9 +47,9 @@ class War {
     var multiple: Int
     var number: Int
     var score: (Int,Int)?
-    init(players: (Player, Player), startCards: [(Card,Card)], discards: [Card], status: String, multiple: Int, number: Int){
+    init(players: (Player, Player), compareCards: [(Card,Card)], discards: [Card], status: String, multiple: Int, number: Int){
         self.players = players
-        self.startCards = startCards
+        self.compareCards = compareCards
         self.discards = discards
         self.status = status
         self.multiple = multiple
