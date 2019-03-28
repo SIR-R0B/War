@@ -72,7 +72,9 @@ while game.status == "active"{
         
         while war.status == "active"{
             
-            if game.hands.0.cards.count > 3 && game.hands.1.cards.count > 3{
+            let warDrawAmt = 3
+            
+            if game.hands.0.cards.count > warDrawAmt && game.hands.1.cards.count > warDrawAmt{
                 
                 let p1Discard1 = game.hands.0.cards.removeFirst()
                 let p1Discard2 = game.hands.0.cards.removeFirst()
@@ -110,7 +112,7 @@ while game.status == "active"{
             } else {
                 // War, but not enough cards, so gameover
                 // if war.multiple >1 the original drawCards will have already been added to the discard pile, otherwise no
-                if game.hands.0.cards.count < 4{
+                if game.hands.0.cards.count <= warDrawAmt{
                     if war.multiple > 1{
                         game.hands.1.cards += war.discards
                     } else{
@@ -122,7 +124,7 @@ while game.status == "active"{
                         war.winner = player2
                     }
                 }
-                if game.hands.1.cards.count < 4{
+                if game.hands.1.cards.count < warDrawAmt{
                     // if war.multiple >1 the original drawCards will have already been added to the discard pile, otherwise no
                     if war.multiple > 1{
                         game.hands.0.cards += war.discards
