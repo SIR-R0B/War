@@ -47,6 +47,7 @@ class War {
     var multiple: Int
     var number: Int
     var score: (Int,Int)?
+    let drawAmt = 3
     init(players: (Player, Player), compareCards: [(Card,Card)], discards: [Card], status: String, multiple: Int, number: Int){
         self.players = players
         self.compareCards = compareCards

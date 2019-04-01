@@ -72,19 +72,17 @@ while game.status == "active"{
         
         while war.status == "active"{
             
-            let warDrawAmt = 3
-            
-            if game.hands.0.cards.count > warDrawAmt && game.hands.1.cards.count > warDrawAmt{
+            if game.hands.0.cards.count > war.drawAmt && game.hands.1.cards.count > war.drawAmt{
                 
-                let p1Discard1 = game.hands.0.cards.removeFirst()
-                let p1Discard2 = game.hands.0.cards.removeFirst()
-                let p1Discard3 = game.hands.0.cards.removeFirst()
-                let p2Discard1 = game.hands.1.cards.removeFirst()
-                let p2Discard2 = game.hands.1.cards.removeFirst()
-                let p2Discard3 = game.hands.1.cards.removeFirst()
-                
-                war.discards += [p1Discard1, p2Discard1, p1Discard2, p2Discard2, p1Discard3, p2Discard3]
-                
+                for _ in 0..<war.drawAmt{
+                    let discard = game.hands.0.cards.removeFirst()
+                    war.discards.append(discard)
+                }
+                for _ in 0..<war.drawAmt{
+                    let discard = game.hands.1.cards.removeFirst()
+                    war.discards.append(discard)
+                }
+               
                 war.cards = (game.hands.0.cards.removeFirst(),game.hands.1.cards.removeFirst())
                 war.compareCards.append(war.cards!)
                 
@@ -112,7 +110,7 @@ while game.status == "active"{
             } else {
                 // War, but not enough cards, so gameover
                 // if war.multiple >1 the original drawCards will have already been added to the discard pile, otherwise no
-                if game.hands.0.cards.count <= warDrawAmt{
+                if game.hands.0.cards.count <= war.drawAmt{
                     if war.multiple > 1{
                         game.hands.1.cards += war.discards
                     } else{
@@ -124,7 +122,7 @@ while game.status == "active"{
                         war.winner = player2
                     }
                 }
-                if game.hands.1.cards.count < warDrawAmt{
+                if game.hands.1.cards.count < war.drawAmt{
                     // if war.multiple >1 the original drawCards will have already been added to the discard pile, otherwise no
                     if war.multiple > 1{
                         game.hands.0.cards += war.discards
