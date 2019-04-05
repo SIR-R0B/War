@@ -1,4 +1,3 @@
-
 class Player {
     class Hand {
         var cards: [Card]
