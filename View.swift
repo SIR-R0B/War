@@ -7,9 +7,7 @@ func getName(_ n : Int) -> String{
         return "Player\(n)"
     }
 }
-func display(_ x: Any) -> (){
-    if let game = x as? Game{
-        
+func display(_ game: Game) -> (){
         for i in 0..<game.log.count{
             if let round = game.log[i] as? Game.Round{
                 print("")
@@ -63,8 +61,7 @@ func display(_ x: Any) -> (){
                 print("Score: \(war.score!.0) and \(war.score!.1)")
             }
         }
-        print("Game status: \(game.status)")
+        print("Game Status: \(game.status)")
         print("\(game.players.0.name)(\(game.players.0.hand.cards.count))")
         print("\(game.players.1.name)(\(game.players.1.hand.cards.count))")
     }
-}

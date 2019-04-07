@@ -68,13 +68,13 @@ class Game {
             let p2DrawCard = round.cards.1
             
             if p1DrawCard.value.rawValue == p2DrawCard.value.rawValue{
-                
+                 // MARK: Start a war
                 round.isWar = true
                 
                 let war = War(players: (player1, player2), compareCards: [(p1DrawCard, p2DrawCard)], discards: [p1DrawCard,p2DrawCard], multiple: 1, number: warNumber)
                 
                 while war.status == Status.active{
-                    
+                   
                     if players.0.hand.cards.count > war.drawAmt && players.1.hand.cards.count > war.drawAmt{
                         
                         for _ in 0..<war.drawAmt{
