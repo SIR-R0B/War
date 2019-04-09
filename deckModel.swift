@@ -11,7 +11,7 @@ struct Deck {
     var size: Int{
         return cards.count
     }
-    func deal() -> ([Card],[Card]) {
+    func deal() -> (firstHalf: [Card],secondHalf: [Card]) {
         var firstHalf = [Card]()
         var secondHalf = [Card]()
         while(firstHalf.count + secondHalf.count != size){
@@ -26,7 +26,7 @@ struct Deck {
                 }
             }
         }
-        let result = (firstHalf,secondHalf)
+        let result = (firstHalf: firstHalf,secondHalf: secondHalf)
         return result
     }
 }
